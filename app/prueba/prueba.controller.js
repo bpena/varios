@@ -10,7 +10,7 @@
     function PruebaController() {
         var vm = this;
 
-        vm.nombre = 'nana2';
+        vm.nombre = "12,20022";
 
         console.log("hola", vm.nombre);
     }
