@@ -6,12 +6,11 @@
         .directive('currency', currency);
 
     currency.$injector = [
-        '$log', 
         '$filter',
         '$locale'
     ];
 
-    function currency($log, $filter, $locale) {
+    function currency($filter, $locale) {
         return {
             restrict: 'A',
             require: 'ngModel',
@@ -19,7 +18,8 @@
                 min: '=min',
                 max: '=max',
                 useSymbol: '@',
-                ngRequired: '=ngRequired'
+                ngRequired: '=ngRequired',
+                decimalLen: '=decimalLen'
             },
             link: function(scope, element, attrs, ngModel) {
                 var SEPARADOR_MILES = $locale.NUMBER_FORMATS.GROUP_SEP;
@@ -78,7 +78,7 @@
                  * @returns {*} la expresión regular retornada
                  */
                 function regExp(dChar) {
-                    return RegExp("\\" + dChar, 'gi');
+                    return new RegExp("\\" + dChar, 'gi');
                 }
 
                 /**
@@ -87,7 +87,7 @@
                  * @returns {*}
                  */
                 function decimalRex() {
-                    return RegExp("[^0-9"+SEPARADOR_DECIMAL+"\-]", 'gi')
+                    return new RegExp("[^0-9"+SEPARADOR_DECIMAL+"\-]", 'gi');
                 }
 
                 /**
@@ -120,7 +120,7 @@
                         pos = 1;
                     }
                     if (pos > 0) // eliminamos todos los separadores decimales repetidos
-                        text = text.substring(0, pos+1) + text.substring(pos, text.length).replace(regExp(SEPARADOR_DECIMAL), '')
+                        text = text.substring(0, pos+1) + text.substring(pos, text.length).replace(regExp(SEPARADOR_DECIMAL), '');
                     else if (pos == 0)
                         text = text.substring(1, text.length);
 
@@ -143,7 +143,7 @@
                         return parseFloat(text.replace(regExp(SEPARADOR_DECIMAL), '.'));
                     else
                         return null;
-                };
+                }
 
                 /**
                  *
@@ -152,9 +152,9 @@
                  */
                 function toView(value) {
                     if (!currencySymbol())
-                        return $filter('number')(value, 5);
+                        return $filter('number')(value, scope.decimalLen);
                     else
-                        return $filter('currency')(value, currencySymbol());
+                        return $filter('currency')(value, currencySymbol(), scope.decimalLen);
                 }
 
                 /**
@@ -189,12 +189,12 @@
                         return
                     }
                     if (scope.min) {
-                        var min = parseFloat(scope.min)
-                        ngModel.$setValidity('min', cVal >= min)
+                        var min = parseFloat(scope.min);
+                        ngModel.$setValidity('min', cVal >= min);
                     }
                     if (scope.max) {
-                        var max = parseFloat(scope.max)
-                        ngModel.$setValidity('max', cVal <= max)
+                        var max = parseFloat(scope.max);
+                        ngModel.$setValidity('max', cVal <= max);
                     }
                 }
             }

@@ -2,8 +2,9 @@
 
 
 <form name="formName">
-    <input currency ng-model="ctrl.nombre" ng-required="true" min="123" use-symbol="Bs.">
+    <label for="ejemplo">Monto</label>
+    <input id="ejemplo" data-currency data-ng-model="ctrl.monto" data-ng-required="true" min="123" data-use-symbol="Bs." data-decimal-len="3">
 </form>
 <button ng-click="someFunction()" >
-{{ctrl.nombre+25}}
-    </button>
+    {{ctrl.monto+25}}
+</button>

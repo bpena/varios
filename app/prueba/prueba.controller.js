@@ -10,8 +10,8 @@
     function PruebaController() {
         var vm = this;
 
-        vm.nombre = 123456.32;
+        vm.monto = 123456.32;
 
-        console.log("hola", vm.nombre);
+        console.log("hola", vm.monto);
     }
 })();
