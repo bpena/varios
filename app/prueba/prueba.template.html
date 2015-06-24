@@ -1,3 +1,9 @@
 <h1>Hola mundo!!!</h1>
-<input data-pt-currency ng-model="ctrl.nombre">
-{{ctrl.nombre}}
+
+
+<form name="formName">
+    <input currency ng-model="ctrl.nombre" ng-required="true" min="123" use-symbol="Bs.">
+</form>
+<button ng-click="someFunction()" >
+{{ctrl.nombre+25}}
+    </button>
