@@ -15,9 +15,9 @@ Hace uso del $locale, por lo que puedes importar y usar el archivo locale corres
 automágicamente usará el formato correcto para mostrar los montos en el campo de texto.
 
 Tiene los siguientes atributos:
-1. min y max, para definir rangos de valores válidos.
-2. useSymbol, si no se agrega tonces no muestra simbolo de moneda, si se agrega usa el simbolo de moneda por defecto, si se agrega y se indica el simbolo de moneda a utilizar, tonces usa este simbolo. (use-symbol = "Bs.")
-3. decimalLen, indica la longitud decimal
+ 1. min y max, para definir rangos de valores válidos. 
+ 2. useSymbol, si no se agrega tonces no muestra simbolo de moneda, si se agrega usa el simbolo de moneda por defecto, si se agrega y se indica el simbolo de moneda a utilizar, tonces usa este simbolo. (use-symbol = "Bs.")
+ 3. decimalLen, indica la longitud decimal
 
 ## Contacto
 
