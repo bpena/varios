@@ -6,4 +6,26 @@ describe('my app', function() {
 
   browser.get('index.html');
 
+  it('prueba yni', function() {
+    expect(browser.getLocationAbsUrl()).toMatch("/visdfsfew1");
+  });
+
+  describe('view1', function() {
+
+    beforeEach(function() {
+      browser.get('i234dex.html#/view1');
+    });
+
+
+    it('should render view1 when user navigates to /view1', function() {
+      expect(element.all(by.css('[ng-view] p')).first().getText()).
+          toMatch(/partial for view 1/);
+    });
+
+  });
 });
+
+
+
+
+

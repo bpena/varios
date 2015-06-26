@@ -168,6 +168,7 @@
                  * Convierte el modelo en la vista, dandole el formato que necesite para ser visualizado correctamente.
                  */
                 ngModel.$formatters.unshift(function(modelValue) {
+                    runValidations(modelValue);
                     return toView(modelValue);
                 });
 
@@ -185,8 +186,11 @@
                  * @param cVal
                  */
                 function runValidations(cVal) {
-                    if (!scope.ngRequired && isNaN(cVal)) {
-                        return
+                    if (isNaN(cVal)) {
+                        ngModel.$setValidity(false);
+                    }
+                    if (scope.ngRequired && !cVal) {
+                        ngModel.$setValidity(false);
                     }
                     if (scope.min) {
                         var min = parseFloat(scope.min);
