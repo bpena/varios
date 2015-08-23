@@ -29,7 +29,7 @@
                 /**
                  * Capturamos el evento cuando se presiona una tecla en el componente
                  */
-                element.bind('keypress', function(event) {
+                element.on('keypress', function(event) {
                     if (String.fromCharCode(event.charCode) == SEPARADOR_MILES) // utilizamos el punto como separador decimal (sólo el primero)
                         insertaComa = this.value.indexOf(SEPARADOR_DECIMAL) == -1;
                     else if (event.keyCode == 32) // controlamos cuando pulsamos barra espaciadora, y eliminamos el caracter
@@ -39,7 +39,7 @@
                 /**
                  * Capturamos el evento cuando se deja de presionar una tecla
                  */
-                element.bind('keyup', function (event) {
+                element.on('keyup', function (event) {
                     if (event.keyCode == 32) // controlamos cuando la tecla pulsada era la barra espacioadora
                         toModel(this.value);// y eliminamos el caracter
                 });
@@ -51,6 +51,9 @@
                     element.val(toView(this.value));
                 });
 
+                element.on('paste', function(event) {
+                    toView(event.srcElement.value);
+                });
                 /**
                  * Quitamos el formato del texto cuando el elemento obtiene el foco
                  */
@@ -96,6 +99,8 @@
                  * @returns Number texto formateado
                  */
                 function toModel(text) {
+                    var decimal_adjust = 0;
+
                     // Eliminamos el simbolo de moneda
                     text = text.replace(currencySymbol(), '');
 
@@ -118,6 +123,7 @@
                     if (pos == 0 && text.lastIndexOf(SEPARADOR_DECIMAL)==pos) { // si el primero se encuentra en la posición cero,
                         text = '0' + text;  // agregamos un cero al inicio
                         pos = 1;
+                        decimal_adjust = 2;
                     }
                     if (pos > 0) // eliminamos todos los separadores decimales repetidos
                         text = text.substring(0, pos+1) + text.substring(pos, text.length).replace(regExp(SEPARADOR_DECIMAL), '');
@@ -128,7 +134,7 @@
                     text = text.replace(decimalRex(), '');
 
                     // almacenamos la posición del cursor, para restaurarla luego de hacer el render
-                    var cursorPos = element[0].selectionStart;
+                    var cursorPos = element[0].selectionStart + decimal_adjust;
                     if (element[0].value != text) // si hay algún tipo de modificación en el texto
                         cursorPos--;              // entonces ajustamos la posición del cursor
                     // Ajustamos lo que se ve en la pantalla
